@@ -1,0 +1,17 @@
+{
+  "name": "marcel/wallstreet",
+  "require": {
+    "components/jquery": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "php\\": "php/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Marcel Roa",
+      "email": "mroa@limetec-biotechnologies.de"
+    }
+  ]
+}
