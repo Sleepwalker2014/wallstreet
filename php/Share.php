@@ -25,7 +25,7 @@ class Share {
      * @param string $name
      * @param float  $course
      */
-    public function __construct (string $name, float $course) {
+    public function __construct ($name, $course) {
         $this->name = $name;
         $this->course = $course;
     }

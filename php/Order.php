@@ -8,8 +8,10 @@
 
 namespace php;
 
-
 class Order {
+    const ASK = 'ASK';
+    const BID = 'BID';
+
     /**
      * @var int
      */
@@ -23,30 +25,34 @@ class Order {
      */
     private $share;
 
+    private $type;
+
     /**
      * Order constructor.
      *
      * @param int   $amount
      * @param int   $price
      * @param Share $share
+     * @param       $type
      */
-    public function __construct (int $amount, int $price, Share $share) {
+    public function __construct ($amount, $price, $share, $type) {
         $this->amount = $amount;
         $this->price = $price;
         $this->share = $share;
+        $this->type = $type;
     }
 
     /**
      * @param int $amount
      */
-    public function setAmount (int $amount) {
+    public function setAmount ($amount) {
         $this->amount = $amount;
     }
 
     /**
      * @param int $price
      */
-    public function setPrice (int $price) {
+    public function setPrice ($price) {
         $this->price = $price;
     }
 
@@ -60,21 +66,21 @@ class Order {
     /**
      * @return int
      */
-    public function getAmount (): int {
+    public function getAmount () {
         return $this->amount;
     }
 
     /**
      * @return int
      */
-    public function getPrice (): int {
+    public function getPrice () {
         return $this->price;
     }
 
     /**
      * @return Share
      */
-    public function getShare (): Share {
+    public function getShare () {
         return $this->share;
     }
 }
