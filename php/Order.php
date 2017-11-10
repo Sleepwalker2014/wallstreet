@@ -26,20 +26,37 @@ class Order {
     private $share;
 
     private $type;
+    private $order;
 
     /**
      * Order constructor.
      *
+     * @param       $order
      * @param int   $amount
      * @param int   $price
      * @param Share $share
      * @param       $type
      */
-    public function __construct ($amount, $price, $share, $type) {
+    public function __construct ($order, $amount, $price, $share, $type) {
         $this->amount = $amount;
         $this->price = $price;
         $this->share = $share;
         $this->type = $type;
+        $this->order = $order;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder () {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder ($order) {
+        $this->order = $order;
     }
 
     /**

@@ -36,10 +36,9 @@ class OrderRepository {
         $result = $this->db->query($sql);
 
         while ($order = $result->fetch_assoc()) {
-            echo $order['type'];
-
-            $orders[$order['type']][] = new Order($order['amount'],
-                                                  $order['price'],
+            $orders[$order['type']][] = new Order($order['order'],
+                                                  $order['amount'],
+                                                  $order['limit'],
                                                   new Share('muh', 3.4), $order['type']);
         }
 

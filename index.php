@@ -16,7 +16,8 @@ use php\Share;
 $mysqli = new mysqli('127.0.0.1', 'root', 'Deutschrock1', 'wallstreet');
 
 $orderRepository = new OrderRepository($mysqli);
-echo print_r($orderRepository->getOrdersForShare(new Share('böah', 3.5)), true);
 
-$test = new OrderHandler();
+$test = new OrderHandler($orderRepository);
+$test->getBidsForOrder();
+
 echo "muh";

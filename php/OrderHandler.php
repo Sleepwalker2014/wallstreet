@@ -14,12 +14,18 @@ namespace php;
  * @package php
  */
 class OrderHandler {
+    /**
+     * @var OrderRepository
+     */
+    private $orderRepository;
 
     /**
      * OrderHandler constructor.
+     *
+     * @param OrderRepository $orderRepository
      */
-    public function __construct () {
-$this->getBidsForOrder();
+    public function __construct (OrderRepository $orderRepository) {
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -31,16 +37,24 @@ $this->getBidsForOrder();
         /** @var Order[] $completedOrders */
         $completedOrders = [];
 
+        $shareOrders = $this->orderRepository->getOrdersForShare(new Share('böah',3));
+
         /** @var Order[] $bids */
-        $bids = [new Order(10, 8, new Share('blubb', 34.3)), new Order(3, 8, new Share('blubb', 34.3))];
+        $bids = $shareOrders['bid'];
 
         /** @var Order[] $asks */
-        $asks = [new Order(9, 7, new Share('blubb', 34.3)), new Order(4, 20, new Share('blubb', 34.3))];
+        $asks = $shareOrders['ask'];
+
+        $bidAmounts = [];
 
         foreach ($asks as $ask) {
             $tmpBids = $bids;
 
             foreach ($tmpBids as $bid) {
+                if (!isset($bidAmounts[$bid->getOrder()])) {
+                    $bidAmounts[$bid->getOrder()] = $bid->getAmount();
+                }
+
                 if ($bid->getAmount() === 0 ||
                     ($bid->getPrice() > $ask->getPrice())) {
 
@@ -64,7 +78,9 @@ $this->getBidsForOrder();
             }
         }
 
-        $currentCourse = $completedOrders[0]->getPrice();
+        if (isset($completedOrders[0])) {
+            echo $currentCourse = $completedOrders[0]->getPrice();
+        }
 
         return $completedOrders;
     }
