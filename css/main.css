@@ -1,0 +1,9 @@
+html {
+    background-color: #d44;
+}
+
+.center {
+    background-color: #dfd;
+    width: 50%;
+    margin: 0 auto;
+}

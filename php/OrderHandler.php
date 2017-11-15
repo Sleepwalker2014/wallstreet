@@ -37,7 +37,7 @@ class OrderHandler {
         /** @var Order[] $completedOrders */
         $completedOrders = [];
 
-        $shareOrders = $this->orderRepository->getOrdersForShare(new Share('böah',3));
+        $shareOrders = $this->orderRepository->getOrdersForShare(new Share('böah', 3));
 
         /** @var Order[] $bids */
         $bids = $shareOrders['bid'];
@@ -45,35 +45,38 @@ class OrderHandler {
         /** @var Order[] $asks */
         $asks = $shareOrders['ask'];
 
-        $bidAmounts = [];
-
         foreach ($asks as $ask) {
-            $tmpBids = $bids;
+            $bidAmounts = [];
 
-            foreach ($tmpBids as $bid) {
+            foreach ($bids as $bid) {
                 if (!isset($bidAmounts[$bid->getOrder()])) {
                     $bidAmounts[$bid->getOrder()] = $bid->getAmount();
                 }
 
-                if ($bid->getAmount() === 0 ||
+                if ($bidAmounts[$bid->getOrder()] === 0 ||
                     ($bid->getPrice() > $ask->getPrice())) {
 
                     continue;
                 }
 
-                if ($bid->getAmount() > $ask->getAmount()) {
-                    $bid->setAmount($bid->getAmount() - $ask->getAmount());
+                if ($bidAmounts[$bid->getOrder()] > $ask->getAmount()) {
+                    $bidAmounts[$bid->getOrder()] = $bidAmounts[$bid->getOrder()] - $ask->getAmount();
                     $ask->setAmount(0);
                 } else {
-                    $ask->setAmount($ask->getAmount() - $bid->getAmount());
-                    $bid->setAmount(0);
+                    $ask->setAmount($ask->getAmount() - $bidAmounts[$bid->getOrder()]);
+                    $bidAmounts[$bid->getOrder()] = 0;
                 }
 
                 if ($ask->getAmount() === 0) {
-                    $bids = $tmpBids;
                     $completedOrders[] = $ask;
 
                     break;
+                }
+            }
+
+            if ($ask->getAmount() === 0) {
+                foreach ($bids as $bid) {
+                    $bid->setAmount($bidAmounts[$bid->getOrder()]);
                 }
             }
         }
@@ -90,9 +93,9 @@ class OrderHandler {
      *
      * @return []Order
      */
-    public function getBidsForShare (Share $share) {
+    public
+    function getBidsForShare (Share $share) {
         return [new Order(3, 6, new Share('blubb', 34.3))];
     }
-
-    // orders die komplett ausgeführt wurden und gegenparts dazzu ermitteln
+// orders die komplett ausgeführt wurden und gegenparts dazzu ermitteln
 }

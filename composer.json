@@ -1,7 +1,8 @@
 {
   "name": "marcel/wallstreet",
   "require": {
-    "components/jquery": "^3.2"
+    "components/jquery": "^3.2",
+    "twig/twig": "^1.35"
   },
   "autoload": {
     "psr-4": {
